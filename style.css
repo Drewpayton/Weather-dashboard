@@ -1,0 +1,21 @@
+#uvindex-main {
+    border: 1px solid;
+    border-radius: 9px;
+    background-color: white;
+    color: white;
+    border-color: white;
+}
+
+.custom-card {
+    width: 25rem;
+    max-height: 400px;
+}
+
+p {
+    font-size: large;
+    font-weight: 500;
+}
+
+img {
+    max-width: 100px;
+}
