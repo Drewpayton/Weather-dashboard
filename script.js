@@ -10,6 +10,7 @@ var customUVIndex = document.querySelector('#uvindex-main')
 var fiveDayFore = document.querySelector('#fivedayfore')
 var dates = document.querySelector('#dates')
 var currentDate = moment();
+var parentDiv = 0
 
 
 function activate(){
@@ -21,7 +22,10 @@ function activate(){
         .then(function (response){
             if (response.status > 199 && response.status < 300){
                 cityName.textContent = inputValue.value.charAt(0).toUpperCase() + inputValue.value.slice(1) + currentDate.format("(M/DD/YYYY)")
+               
+                    
                 createHistory();
+                
                 }else {
                     alert("Enter a valid city.")
                     return;
@@ -69,6 +73,8 @@ function printWeather(datas){
         document.getElementById("uvindex-main").style.borderColor = "#670167"
     }
 
+    fiveDayFore.innerHTML = "";
+
     for(i = 0; i <= 4; i++){
     var tommorow = moment().add([i + 1],'days').format("(M/DD/YYYY)")
     var { day } = datas.daily[i].temp
@@ -76,7 +82,6 @@ function printWeather(datas){
     var { wind_speed } = datas.daily[i]
     var { humidity } = datas.daily[i]
     
-    console.log(icon)
     var resultCard = document.createElement('div');
     var imgContent = document.createElement('img');
     var bodyContentEl = document.createElement('p');
@@ -89,13 +94,13 @@ function printWeather(datas){
     titleEl.classList.add('card-title', 'fw-bold', 'text-center', 'mb-4');
     imgContent.classList.add('wicon');
     
-    console.log(icon, iconCode, iconurl)
-    
     titleEl.textContent = tommorow
     imgContent.setAttribute('src', iconurl)
     bodyContentEl.textContent = 'Temp: ' + day + '°F'
     bodyContentWind.textContent = 'Wind: ' + wind_speed + 'MPH'
     bodyContentHumid.textContent = 'Humidity: ' + humidity + '%'
+
+    
 
     resultCard.appendChild(titleEl);
     resultCard.appendChild(imgContent);
@@ -104,15 +109,43 @@ function printWeather(datas){
     resultCard.appendChild(bodyContentHumid);
     fiveDayFore.appendChild(resultCard);
 
-console.log(resultCard)
 
 }}};
 
 function createHistory() {
     var history = document.createElement('button')
-    history.classList.add('btn', 'btn-secondary', 'w-100', 'my-2', 'shadow')
+    
+    history.classList.add('btn', 'btn-secondary', 'w-100', 'my-2', 'shadow', "recentHis-btn")
     history.textContent = inputValue.value.charAt(0).toUpperCase() + inputValue.value.slice(1)
-    recentHistory.append(history)
+    var pended = history.textContent
+    recentItem = localStorage.getItem("search")
+
+    console.log(pended, recentItem + "fjdsaiohfoueaihfuheasufe")
+    if(recentItem == history.textContent){
+    return;
+    }else {
+        recentHistory.prepend(history)
+        parentDiv = parentDiv + 1
+    }
+
+    localStorage.setItem("search", pended)
+
+    console.log(parentDiv, )
+    
+    if (parentDiv > 5) {
+        recentHistory.removeChild(recentHistory.lastElementChild)
+        console.log(recentHistory)
+    }
+    
+
+    
+
+    
+
+
 }
+
+// make the btn = inputValue.value and then run function,  add event lis for recent his
+// add the icon on the current weather at the top 
 
 searchBtn.addEventListener("click", activate);
