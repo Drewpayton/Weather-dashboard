@@ -9,6 +9,8 @@ var recentHistory = document.querySelector('#recentHistory')
 var customUVIndex = document.querySelector('#uvindex-main')
 var fiveDayFore = document.querySelector('#fivedayfore')
 var dates = document.querySelector('#dates')
+var mainweather = document.querySelector('#mainWeather')
+
 var currentDate = moment();
 var parentDiv = 0
 
@@ -18,12 +20,11 @@ function activate(){
 
     var requestUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + inputValue.value + "&exclude=minutely,hourly,alerts&appid=c78c558b4a973e2264ce5c9d04ed7ac8"
     
+    
     fetch(requestUrl)
         .then(function (response){
             if (response.status > 199 && response.status < 300){
-                cityName.textContent = inputValue.value.charAt(0).toUpperCase() + inputValue.value.slice(1) + currentDate.format("(M/DD/YYYY)")
-               
-                    
+                
                 createHistory();
                 
                 }else {
@@ -50,14 +51,22 @@ function printWeather(datas){
     console.log(requestUrl)
 
     var{ temp } = datas.current;
+    var{ icon } = datas.current.weather[0];
     var{ humidity } = datas.current;
     var { uvi } = datas.current;
     var { wind_speed } = datas.current;
+
+    console.log(icon)
     
+    iconMain = icon
     tempMain.textContent = "Temp: " + temp + "°F"
     windMain.textContent = "Wind: " + wind_speed + "MPH"
     humidMain.textContent = "Humidity: " + humidity + "%"
     uvIndexMain.textContent = uvi
+    var iconMainWeather = "https://openweathermap.org/img/wn/" + iconMain + ".png";
+
+    mainweather.setAttribute('src', iconMainWeather)
+    cityName.textContent = inputValue.value.charAt(0).toUpperCase() + inputValue.value.slice(1) + currentDate.format("(M/DD/YYYY)")
  
     if(uvi >= 0 && uvi <= 2) {
         document.getElementById("uvindex-main").style.backgroundColor = "#006400"
@@ -89,7 +98,7 @@ function printWeather(datas){
     var bodyContentHumid = document.createElement('p');
     var titleEl = document.createElement('h5');
     var iconCode = icon;
-    var iconurl = "http://openweathermap.org/img/w/" + iconCode + ".png";
+    var iconurl = "http://openweathermap.org/img/wn/" + iconCode + ".png";
     resultCard.classList.add('custom-card', 'mx-4', 'card', 'border', 'border-dark', 'shadow');
     titleEl.classList.add('card-title', 'fw-bold', 'text-center', 'mb-4');
     imgContent.classList.add('wicon');
@@ -120,32 +129,33 @@ function createHistory() {
     var pended = history.textContent
     recentItem = localStorage.getItem("search")
 
-    console.log(pended, recentItem + "fjdsaiohfoueaihfuheasufe")
+    
     if(recentItem == history.textContent){
     return;
     }else {
         recentHistory.prepend(history)
         parentDiv = parentDiv + 1
+        history.textContent = inputValue.value
+        console.log(history.textContent, inputValue.value)
+        console.log(history)
+        console.log(inputValue.value)
     }
 
     localStorage.setItem("search", pended)
 
-    console.log(parentDiv, )
+    console.log(parentDiv)
     
     if (parentDiv > 5) {
         recentHistory.removeChild(recentHistory.lastElementChild)
         console.log(recentHistory)
     }
     
-
-    
-
-    
-
-
 }
 
-// make the btn = inputValue.value and then run function,  add event lis for recent his
-// add the icon on the current weather at the top 
 
+
+
+// make the btn = inputValue.value and then run function,  add event lis for recent his
+ 
+recentHistory.addEventListener("click", activate)
 searchBtn.addEventListener("click", activate);

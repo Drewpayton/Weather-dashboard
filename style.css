@@ -6,6 +6,10 @@
     border-color: white;
 }
 
+#mainWeather {
+    min-width: 100px;
+}
+
 .custom-card {
     width: 25rem;
     max-height: 400px;
