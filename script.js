@@ -45,7 +45,7 @@ function displayWeather(data) {
     fetch(requestUrl)
         .then((response) => response.json())
         .then((datas) => printWeather(datas))  
-
+console.log(requestUrl)
 
 function printWeather(datas){
     console.log(requestUrl)
