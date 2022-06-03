@@ -5,8 +5,10 @@
 [link to my weather dashboard](https://drewpayton.github.io/Weather-dashboard/)
 
 # Description
+I used a third party API to grab the weather, so you can search the weather in any city of your choice.
 
-Search your city or a city of choice and it will display the weather and the five day forecast of the city
+
+Search your city or a city of choice and it will display the weather and the five day forecast of the city. 
 
 
 ![picture of my weather dashboard](Capture.PNG)
